@@ -92,6 +92,14 @@ const requestedTopic = (params.get("topic") || "html").toLowerCase();
 const topicKey = quizzes[requestedTopic] ? requestedTopic : "html";
 const quiz = quizzes[topicKey];
 const QUIZ_SECONDS = 110;
+const QUESTION_COUNT = quiz.questions.length;
+const questionIndexes = quiz.questions.map((_, index) => index);
+for (let index = questionIndexes.length - 1; index > 0; index -= 1) {
+  const swapIndex = Math.floor(Math.random() * (index + 1));
+  [questionIndexes[index], questionIndexes[swapIndex]] = [questionIndexes[swapIndex], questionIndexes[index]];
+}
+questionIndexes.length = QUESTION_COUNT;
+const activeQuestions = questionIndexes.map((index) => quiz.questions[index]);
 let timerInterval;
 
 function formatTime(seconds) {
@@ -106,13 +114,13 @@ function renderQuiz() {
   const form = document.querySelector("#quiz-form");
   if (!title || !list || !form) return;
   title.textContent = quiz.title;
-  document.querySelector(".quiz-page .lead").textContent = `Answer all 15 questions in 110 seconds. Your score and answer review appear when you submit or the timer ends.`;
+  document.querySelector(".quiz-page .lead").textContent = `Answer all 15 questions in 110 seconds. The question order changes each time you start. You can submit with unanswered questions; they will be marked in your review.`;
   const timerPanel = document.createElement("section");
   timerPanel.className = "quiz-timer-panel";
   timerPanel.setAttribute("aria-label", "Quiz timer");
   timerPanel.innerHTML = `<div class="timer-caption"><span>Time remaining</span><strong id="quiz-timer" role="timer" aria-live="off">${formatTime(QUIZ_SECONDS)}</strong></div><div class="timer-track" aria-hidden="true"><span id="timer-progress"></span></div>`;
   form.insertBefore(timerPanel, list);
-  quiz.questions.forEach((question, index) => {
+  activeQuestions.forEach((question, index) => {
     const fieldset = document.createElement("fieldset");
     fieldset.className = "question";
     const legend = document.createElement("legend");
@@ -125,7 +133,6 @@ function renderQuiz() {
       input.type = "radio";
       input.name = `q${index}`;
       input.value = String(optionIndex);
-      input.required = true;
       const text = document.createElement("span");
       text.textContent = option;
       label.append(input, text);
@@ -152,14 +159,14 @@ function renderQuiz() {
     isFinishing = true;
     window.clearInterval(timerInterval);
     const data = new FormData(form);
-    const answers = quiz.questions.map((_, index) => data.has(`q${index}`) ? Number(data.get(`q${index}`)) : null);
+    const answers = activeQuestions.map((_, index) => data.has(`q${index}`) ? Number(data.get(`q${index}`)) : null);
     const error = document.querySelector("#quiz-error");
     error.textContent = timedOut ? "Time ended. Saving your result…" : "Saving your result…";
     try {
       const response = await fetch("/api/results", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ category: topicKey, answers, timedOut })
+        body: JSON.stringify({ category: topicKey, answers, questionIndexes, timedOut })
       });
       const result = await response.json();
       if (response.status === 401) {
@@ -174,7 +181,7 @@ function renderQuiz() {
         total: result.totalQuestions,
         title: quiz.title,
         answers,
-        questions: quiz.questions,
+        questions: activeQuestions,
         timedOut: result.timedOut
       };
       sessionStorage.setItem("quizmakerResult", JSON.stringify(record));

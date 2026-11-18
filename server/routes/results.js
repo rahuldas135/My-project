@@ -15,20 +15,24 @@ router.post("/", requireAuth, async (req, res, next) => {
   try {
     const category = String(req.body.category || "").toLowerCase();
     const answers = req.body.answers;
+    const questionIndexes = req.body.questionIndexes;
     const correctAnswers = ANSWERS[category];
-    if (!correctAnswers || !Array.isArray(answers) || answers.length !== correctAnswers.length) {
+    if (!correctAnswers || !Array.isArray(answers) || answers.length !== correctAnswers.length || !Array.isArray(questionIndexes) || questionIndexes.length !== answers.length) {
       return res.status(400).json({ error: "The quiz submission is invalid. Please try again." });
+    }
+    if (questionIndexes.some((index) => !Number.isInteger(index) || index < 0 || index >= correctAnswers.length) || new Set(questionIndexes).size !== questionIndexes.length) {
+      return res.status(400).json({ error: "The quiz questions are invalid. Please try again." });
     }
     if (answers.some((answer) => answer !== null && (!Number.isInteger(answer) || answer < 0 || answer > 2))) {
       return res.status(400).json({ error: "One or more answers are invalid." });
     }
-    const correct = answers.reduce((sum, answer, index) => sum + Number(answer === correctAnswers[index]), 0);
+    const correct = answers.reduce((sum, answer, index) => sum + Number(answer === correctAnswers[questionIndexes[index]]), 0);
     const result = await QuizResult.create({
       userId: req.user._id,
       category,
-      totalQuestions: correctAnswers.length,
+      totalQuestions: answers.length,
       correctAnswers: correct,
-      score: Math.round((correct / correctAnswers.length) * 100),
+      score: Math.round((correct / answers.length) * 100),
       timedOut: Boolean(req.body.timedOut)
     });
     res.status(201).json({
