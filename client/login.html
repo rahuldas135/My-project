@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demo sign-in page for QuizMaster.">
+  <title>Sign in | QuizMaster</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/login.js" defer></script>
+</head>
+<body class="account-body">
+  <main class="account-layout">
+    <a class="brand account-brand" href="index.html"><span class="brand-icon">Q</span> QuizMaster</a>
+    <section class="account-card" aria-labelledby="login-title">
+      <a class="account-back" href="index.html">← Back to home</a>
+      <div class="account-symbol" aria-hidden="true">Q</div>
+      <p class="eyebrow">Welcome back, learner</p>
+      <h1 id="login-title">Sign in to QuizMaster</h1>
+      <p class="account-subtitle">Pick up where you left off and keep learning something new.</p>
+      <form id="login-form">
+        <label class="account-label" for="login-email">Email address</label>
+        <input class="account-input" id="login-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" aria-describedby="login-email-error" required>
+        <p class="field-error" id="login-email-error" aria-live="polite"></p>
+        <label class="account-label" for="password">Password</label>
+        <div class="password-wrap"><input class="account-input" id="password" type="password" name="password" placeholder="Enter your password" autocomplete="current-password" minlength="8" required><button class="password-toggle" id="password-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button></div>
+        <div class="forgot-row"><button type="button" id="forgot-password">Forgot password?</button></div>
+        <button class="button account-submit" type="submit">Sign in →</button>
+        <p id="login-message" class="account-message" role="status" aria-live="polite"></p>
+      </form>
+      <p class="account-switch">New to QuizMaster? <a id="signup-link" href="signup.html">Create an account</a></p>
+      <p class="demo-note">Demo only: this form does not create a session or save your password.</p>
+    </section>
+    <p class="account-tagline">Learn <span>•</span> Practise <span>•</span> Improve</p>
+  </main>
+</body>
+</html>

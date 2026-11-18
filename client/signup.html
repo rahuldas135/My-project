@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create a QuizMaster learning account demo.">
+  <title>Create an account | QuizMaster</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/signup.js" defer></script>
+</head>
+<body class="account-body">
+  <main class="account-layout">
+    <a class="brand account-brand" href="index.html"><span class="brand-icon">Q</span> QuizMaster</a>
+    <section class="account-card" aria-labelledby="signup-title">
+      <a class="account-back" href="index.html">← Back to home</a>
+      <div class="account-symbol" aria-hidden="true">Q</div>
+      <p class="eyebrow">Start your learning journey</p>
+      <h1 id="signup-title">Create your account</h1>
+      <p class="account-subtitle">Join QuizMaster and make practice part of your day.</p>
+      <form id="signup-form">
+        <label class="account-label" for="signup-name">Your name</label>
+        <input class="account-input" id="signup-name" type="text" name="name" placeholder="Alex Learner" autocomplete="name" required>
+        <label class="account-label" for="signup-email">Email address</label>
+        <input class="account-input" id="signup-email" type="email" name="email" placeholder="you@example.com" autocomplete="email" aria-describedby="signup-email-error" required>
+        <p class="field-error" id="signup-email-error" aria-live="polite"></p>
+        <label class="account-label" for="signup-phone">Phone number <span class="optional-label">(optional)</span></label>
+        <input class="account-input" id="signup-phone" type="tel" name="phone" placeholder="+1 555 0100" autocomplete="tel">
+        <label class="account-label" for="signup-password">Create a password</label>
+        <div class="password-wrap"><input class="account-input" id="signup-password" type="password" name="password" placeholder="At least 8 characters" minlength="8" autocomplete="new-password" required><button class="password-toggle" type="button" data-toggle="signup-password" aria-label="Show password" aria-pressed="false">Show</button></div>
+        <label class="account-label" for="signup-confirm-password">Confirm password</label>
+        <input class="account-input" id="signup-confirm-password" type="password" name="confirmPassword" placeholder="Enter your password again" minlength="8" autocomplete="new-password" required>
+        <button class="button account-submit" type="submit">Create account →</button>
+        <p id="signup-message" class="account-message" role="status" aria-live="polite"></p>
+      </form>
+      <p class="account-switch">Already have an account? <a id="login-link" href="login.html">Sign in</a></p>
+      <p class="demo-note">Demo only: account details are not sent or saved.</p>
+    </section>
+    <p class="account-tagline">Learn <span>•</span> Practise <span>•</span> Improve</p>
+  </main>
+</body>
+</html>

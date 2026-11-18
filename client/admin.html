@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Administrator-only QuizMaster user and activity dashboard.">
+  <title>Admin Dashboard | QuizMaster</title>
+  <link rel="stylesheet" href="css/style.css"><script src="js/admin.js" defer></script>
+</head>
+<body>
+  <header class="site-header"><nav class="container nav" aria-label="Main navigation"><a class="brand" href="index.html"><span class="brand-icon">Q</span> QuizMaster</a><div class="nav-links"><a href="profile.html">My Profile</a><button class="text-button" id="admin-logout" type="button">Sign out</button></div></nav></header>
+  <main class="container admin-page">
+    <section class="page-heading admin-heading"><p class="eyebrow">Administrator only</p><h1>User management</h1><p>Review registered accounts and quiz activity. Passwords and password hashes are never displayed.</p></section>
+    <p id="admin-message" class="profile-notice" role="status">Loading dashboard…</p>
+    <section class="admin-metrics"><article class="summary-card"><span class="summary-label">Registered users</span><strong id="admin-user-count">—</strong></article><article class="summary-card"><span class="summary-label">Quiz attempts</span><strong id="admin-quiz-count">—</strong></article></section>
+    <section class="profile-section"><div class="profile-section-heading"><div><p class="eyebrow">Accounts</p><h2>Users</h2></div></div><div class="table-scroll admin-table-wrap"><table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Registered</th><th>Attempts</th><th>Last quiz</th></tr></thead><tbody id="admin-users"></tbody></table></div></section>
+    <section class="profile-section admin-activity-section"><div class="profile-section-heading"><div><p class="eyebrow">Latest activity</p><h2>Quiz results</h2></div></div><div id="admin-activity" class="history-list"></div></section>
+  </main>
+  <footer class="footer"><div class="container footer-inner"><a class="brand" href="index.html"><span class="brand-icon">Q</span> QuizMaster</a><span>Admin area</span><a href="profile.html">My profile</a></div></footer>
+</body></html>
